@@ -14,3 +14,5 @@ path looks like, e.g.:
     [4,5]
     [2,4]
     [4,3]
+
+likely will use the A\* algorithm
