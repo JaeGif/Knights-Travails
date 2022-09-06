@@ -27,7 +27,8 @@ Use the chosen search algorithm to find the shortest path between the starting s
 
 /* BOARD MATRIX
 
-    1   2   3   4   5   6   7   8
+    0   1   2   3   4   5   6   7
+0   0   0   0   0   0   0   0   0
 1   0   0   0   0   0   0   0   0
 2   0   0   0   0   0   0   0   0
 3   0   0   0   0   0   0   0   0
@@ -35,16 +36,41 @@ Use the chosen search algorithm to find the shortest path between the starting s
 5   0   0   0   0   0   0   0   0
 6   0   0   0   0   0   0   0   0
 7   0   0   0   0   0   0   0   0
-8   0   0   0   0   0   0   0   0
 
 */
+class Node {
+  constructor(x, y, distance) {
+    this.x = x;
+    this.y = y;
+    this.distance = distance;
+  }
+}
 
 function validMove(x, y) {
   // the board is 8x8 always
-  if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+  if (x >= 0 && x <= 7 && y >= 0 && y <= 7) {
     return true;
   }
   return false;
 }
+// rootNode is knights starting position in [x, y]
+// endNode is knights final position in [x, y]
 
-console.log(validMove(2, 9));
+function knightMoves(rootNode, endNode) {
+  const dx = [-2, -1, 1, 2, -2, -1, 1, 2];
+  const dy = [-1, -2, -2, -1, 1, 2, 2, 1];
+
+  let queue = [];
+  queue.push(new Node(rootNode[0], rootNode[1], 0));
+
+  let visit = new Array(9); // make this i-th dimension
+
+  // make all cell unvisited
+  for (let i = 1; i <= 8; i++) {
+    visit[i] = new Array(9); // make the j-th dimension on each i
+    for (let j = 1; j <= 8; j++) {
+      // set all [i, j] points vist value to false]
+      visit[i][j] = false;
+    }
+  }
+}
