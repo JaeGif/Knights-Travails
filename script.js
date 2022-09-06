@@ -39,9 +39,9 @@ Use the chosen search algorithm to find the shortest path between the starting s
 
 */
 class Node {
-  constructor(x, y, distance) {
-    this.x = x;
-    this.y = y;
+  constructor(xPosition, yPosition, distance) {
+    this.xPosition = xPosition;
+    this.yPosition = yPosition;
     this.distance = distance;
   }
 }
@@ -60,17 +60,45 @@ function knightMoves(rootNode, endNode) {
   const dx = [-2, -1, 1, 2, -2, -1, 1, 2];
   const dy = [-1, -2, -2, -1, 1, 2, 2, 1];
 
-  let queue = [];
-  queue.push(new Node(rootNode[0], rootNode[1], 0));
-
   let visit = new Array(9); // make this i-th dimension
 
-  // make all cell unvisited
-  for (let i = 1; i <= 8; i++) {
+  // make all cells unvisited
+  for (let i = 0; i <= 8; i++) {
     visit[i] = new Array(9); // make the j-th dimension on each i
-    for (let j = 1; j <= 8; j++) {
+    for (let j = 0; j <= 8; j++) {
       // set all [i, j] points vist value to false]
       visit[i][j] = false;
     }
   }
+  visit[(rootNode[0], rootNode[1])] = true; // set root node visit value to true and enqueue
+
+  let queue = [];
+  queue.push(new Node(rootNode[0], rootNode[1], 0)); // distance is 0 because it is the root node.
+  let step = [];
+  let iterator = 0;
+
+  while (queue.length !== 0) {
+    step.push(queue.shift());
+    // if target is reached
+    if (
+      step[iterator].xPosition === endNode[0] &&
+      step[iterator].yPosition === endNode[1]
+    ) {
+      return step;
+    }
+
+    for (let i = 0; i < 8; i++) {
+      let x = step[iterator].xPosition + dx[i];
+      let y = step[iterator].yPosition + dy[i];
+      console.log(visit);
+      if (validMove(x, y) && !visit[x][y]) {
+        visit[x][y] = true;
+        queue.push(new Node(x, y, step[iterator].distance + 1));
+      }
+    }
+    iterator++;
+  }
 }
+let start = [3, 3];
+let end = [4, 3];
+console.log(knightMoves(start, end));
