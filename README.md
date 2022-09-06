@@ -15,4 +15,4 @@ path looks like, e.g.:
     [2,4]
     [4,3]
 
-likely will use the A\* algorithm
+likely will use the A\* algorithm after a BFS solution
