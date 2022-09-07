@@ -25,7 +25,7 @@ Use the chosen search algorithm to find the shortest path between the starting s
 11                  label w as explored
 12                  Q.enqueue(w) */
 
-/* BOARD MATRIX
+/* BOARD MATRIX for possible adjacency matrix solution
 
     0   1   2   3   4   5   6   7
 0   0   0   0   0   0   0   0   0
@@ -39,10 +39,10 @@ Use the chosen search algorithm to find the shortest path between the starting s
 
 */
 class Node {
-  constructor(xPosition, yPosition, distance) {
+  constructor(xPosition, yPosition, previous = null) {
     this.xPosition = xPosition;
     this.yPosition = yPosition;
-    this.distance = distance;
+    this.previous = previous;
   }
 }
 
@@ -57,6 +57,14 @@ function validMove(x, y) {
 // endNode is knights final position in [x, y]
 
 function knightMoves(rootNode, endNode) {
+  // invalid input handling
+  if (
+    !validMove(rootNode[0], rootNode[1]) ||
+    !validMove(endNode[0], endNode[1])
+  ) {
+    return;
+  }
+
   const dx = [-2, -1, 1, 2, -2, -1, 1, 2];
   const dy = [-1, -2, -2, -1, 1, 2, 2, 1];
 
@@ -70,10 +78,11 @@ function knightMoves(rootNode, endNode) {
       visit[i][j] = false;
     }
   }
+
   visit[(rootNode[0], rootNode[1])] = true; // set root node visit value to true and enqueue
 
   let queue = [];
-  queue.push(new Node(rootNode[0], rootNode[1], 0)); // distance is 0 because it is the root node.
+  queue.push(new Node(rootNode[0], rootNode[1])); // previous is null because it is the root node.
   let step = [];
   let iterator = 0;
 
@@ -84,21 +93,43 @@ function knightMoves(rootNode, endNode) {
       step[iterator].xPosition === endNode[0] &&
       step[iterator].yPosition === endNode[1]
     ) {
-      return step;
+      const pathNodes = findPath(step);
+      let finalPathOutput = [];
+      for (let i = 0; i < pathNodes.length; i++) {
+        finalPathOutput.push([pathNodes[i].xPosition, pathNodes[i].yPosition]);
+      }
+      return finalPathOutput;
     }
 
     for (let i = 0; i < 8; i++) {
+      // 8 is the number of possible moves. This iterates through all possible moves.
       let x = step[iterator].xPosition + dx[i];
       let y = step[iterator].yPosition + dy[i];
-      console.log(visit);
       if (validMove(x, y) && !visit[x][y]) {
+        // checks if the move is valid and if it is, it enqueues the move
         visit[x][y] = true;
-        queue.push(new Node(x, y, step[iterator].distance + 1));
+        queue.push(new Node(x, y, step[iterator - 1]));
       }
     }
     iterator++;
   }
 }
-let start = [3, 3];
-let end = [4, 3];
+
+function findPath(stepsArr) {
+  const endNode = stepsArr[stepsArr.length - 1];
+  let path = [];
+  let notOrigin = true;
+  let currentNode = endNode;
+  while (notOrigin) {
+    if (currentNode.previous === null) {
+      notOrigin = false;
+    }
+    path.unshift(currentNode);
+    currentNode = currentNode.previous;
+  }
+  return path;
+}
+
+let start = [0, 0];
+let end = [3, 3];
 console.log(knightMoves(start, end));
