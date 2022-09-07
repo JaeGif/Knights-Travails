@@ -93,12 +93,8 @@ function knightMoves(rootNode, endNode) {
       step[iterator].xPosition === endNode[0] &&
       step[iterator].yPosition === endNode[1]
     ) {
-      const pathNodes = findPath(step);
-      let finalPathOutput = [];
-      for (let i = 0; i < pathNodes.length; i++) {
-        finalPathOutput.push([pathNodes[i].xPosition, pathNodes[i].yPosition]);
-      }
-      return finalPathOutput;
+      findPath(step);
+      return;
     }
 
     for (let i = 0; i < 8; i++) {
@@ -108,7 +104,7 @@ function knightMoves(rootNode, endNode) {
       if (validMove(x, y) && !visit[x][y]) {
         // checks if the move is valid and if it is, it enqueues the move
         visit[x][y] = true;
-        queue.push(new Node(x, y, step[iterator - 1]));
+        queue.push(new Node(x, y, step[iterator])); // assign the previous node here
       }
     }
     iterator++;
@@ -116,20 +112,21 @@ function knightMoves(rootNode, endNode) {
 }
 
 function findPath(stepsArr) {
+  // quick fn to iterate from the end to beginning of our new pseudo linkedList to find A path to the origin position.
+  // Does NOT find all shortest paths if more than 1 exists, just 1 shortest path.
   const endNode = stepsArr[stepsArr.length - 1];
   let path = [];
-  let notOrigin = true;
   let currentNode = endNode;
-  while (notOrigin) {
-    if (currentNode.previous === null) {
-      notOrigin = false;
-    }
-    path.unshift(currentNode);
+  while (currentNode.previous !== null) {
+    console.log(currentNode);
+    path.unshift([currentNode.xPosition, currentNode.yPosition]);
     currentNode = currentNode.previous;
   }
+  path.unshift([stepsArr[0].xPosition, stepsArr[0].yPosition]);
+  console.log(path);
+
   return path;
 }
 
-let start = [0, 0];
-let end = [3, 3];
-console.log(knightMoves(start, end));
+export { findPath, knightMoves, validMove, Node };
+knightMoves(start, end);
