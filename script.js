@@ -93,8 +93,7 @@ function knightMoves(rootNode, endNode) {
       step[iterator].xPosition === endNode[0] &&
       step[iterator].yPosition === endNode[1]
     ) {
-      findPath(step);
-      return;
+      return findPath(step);
     }
 
     for (let i = 0; i < 8; i++) {
@@ -123,10 +122,7 @@ function findPath(stepsArr) {
     currentNode = currentNode.previous;
   }
   path.unshift([stepsArr[0].xPosition, stepsArr[0].yPosition]);
-  console.log(path);
-
   return path;
 }
 
 export { findPath, knightMoves, validMove, Node };
-knightMoves(start, end);
