@@ -62,7 +62,7 @@ function knightMoves(rootNode, endNode) {
     !validMove(rootNode[0], rootNode[1]) ||
     !validMove(endNode[0], endNode[1])
   ) {
-    return;
+    return console.log('invalid start or end point. Bounds are [0 -> 7]');
   }
 
   const dx = [-2, -1, 1, 2, -2, -1, 1, 2];
@@ -95,8 +95,8 @@ function knightMoves(rootNode, endNode) {
     ) {
       const finalPath = findPath(step);
       return console.log(
-        `You made it in ${finalPath.length}}`,
-        '. Here is your path!',
+        `You made it in ${finalPath.length - 1} moves!`,
+        'Here is your path:\n',
         finalPath
       );
     }
@@ -122,12 +122,10 @@ function findPath(stepsArr) {
   let path = [];
   let currentNode = endNode;
   while (currentNode.previous !== null) {
-    console.log(currentNode);
     path.unshift([currentNode.xPosition, currentNode.yPosition]);
     currentNode = currentNode.previous;
   }
   path.unshift([stepsArr[0].xPosition, stepsArr[0].yPosition]);
   return path;
 }
-knightMoves([1, 1], [7, 7]);
-/* export { findPath, knightMoves, validMove, Node }; */
+export { knightMoves };
