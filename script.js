@@ -74,12 +74,12 @@ function knightMoves(rootNode, endNode) {
   for (let i = 0; i <= 8; i++) {
     visit[i] = new Array(9); // make the j-th dimension on each i
     for (let j = 0; j <= 8; j++) {
-      // set all [i, j] points vist value to false]
+      // set all [i, j] points vist value to false
       visit[i][j] = false;
     }
   }
 
-  visit[(rootNode[0], rootNode[1])] = true; // set root node visit value to true and enqueue
+  visit[rootNode[0]][rootNode[1]] = true; // set root node visit value to true and enqueue
 
   let queue = [];
   queue.push(new Node(rootNode[0], rootNode[1])); // previous is null because it is the root node.
@@ -93,7 +93,12 @@ function knightMoves(rootNode, endNode) {
       step[iterator].xPosition === endNode[0] &&
       step[iterator].yPosition === endNode[1]
     ) {
-      return findPath(step);
+      const finalPath = findPath(step);
+      return console.log(
+        `You made it in ${finalPath.length}}`,
+        '. Here is your path!',
+        finalPath
+      );
     }
 
     for (let i = 0; i < 8; i++) {
@@ -124,5 +129,5 @@ function findPath(stepsArr) {
   path.unshift([stepsArr[0].xPosition, stepsArr[0].yPosition]);
   return path;
 }
-
-export { findPath, knightMoves, validMove, Node };
+knightMoves([1, 1], [7, 7]);
+/* export { findPath, knightMoves, validMove, Node }; */
