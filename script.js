@@ -1,16 +1,3 @@
-// Should use BFS first then maybe A* after.
-
-/* Put together a script that creates a game board and a knight.
-Treat all possible moves the knight could make as children in a tree. Don’t allow any moves to go off the board.
-Decide which search algorithm is best to use for this case. Hint: one of them could be a potentially infinite series.
-Use the chosen search algorithm to find the shortest path between the starting square (or node) and the ending square. Output what that full path looks like, e.g.:
-  > knightMoves([3,3],[4,3]) 
-  
-  knightmoves fn takes the starting square and the ending square and outputs the path to the square.*/
-
-// knights can move [1, 2], [2, 1], [-1, 2], [-2, 1], and [-1, -2] on the board for each step.
-// the board is bounded and the knight cannot step off, example vertex > 8 is invalid and vertex < 0 is invalid.
-
 /* pseudocode: 
  1  procedure BFS(graph, rootofgraph) is
  2      let Q be a queue
@@ -25,7 +12,7 @@ Use the chosen search algorithm to find the shortest path between the starting s
 11                  label w as explored
 12                  Q.enqueue(w) */
 
-/* BOARD MATRIX for possible adjacency matrix solution
+/* BOARD MATRIX for thought process
 
     0   1   2   3   4   5   6   7
 0   0   0   0   0   0   0   0   0
@@ -62,7 +49,7 @@ function knightMoves(rootNode, endNode) {
     !validMove(rootNode[0], rootNode[1]) ||
     !validMove(endNode[0], endNode[1])
   ) {
-    return console.log('invalid start or end point. Bounds are [0 -> 7]');
+    return console.log('Invalid start or end point. Bounds are [0 -> 7]');
   }
 
   const dx = [-2, -1, 1, 2, -2, -1, 1, 2];
@@ -128,4 +115,5 @@ function findPath(stepsArr) {
   path.unshift([stepsArr[0].xPosition, stepsArr[0].yPosition]);
   return path;
 }
+
 export { knightMoves };
